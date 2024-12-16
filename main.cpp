@@ -1,5 +1,10 @@
 #include "TerrainMap.h"
 #include "Path.h"
+#include "Letadlo.h"
+#include "Lod.h"
+#include "Silnice.h"
+#include "SilniceTrajekt.h"
+#include "Zeleznice.h"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -33,8 +38,21 @@ int main(int argc, char *argv[]) {
     Point start = read_coordinates(argc,argv,2);
     Point finish = read_coordinates(argc,argv,4);
 
+    // Print the elevations of the start and finish points
+    std::cout << "Elevation at start point [" << start.x << ", " << start.y << "] = " << m.alt(start) << " meters" << std::endl;
+    std::cout << "Elevation at finish point [" << finish.x << ", " << finish.y << "] = " << m.alt(finish) << " meters" << std::endl;
+
+
+
+
+
     std::vector<Path*> paths = { //new YourPath(m,"MyPathName",start,finish), ...
         // Here add the list of dynamically created classes with path finding algorithms
+        new Letadlo(m, start, finish),
+        new Lod(m, start, finish),
+        new Silnice(m, start, finish),
+        new SilniceTrajekt(m, start, finish),
+        new Zeleznice(m, start, finish)
     };
 
     for (auto& p : paths) {
